@@ -50,6 +50,12 @@ func WithHeaders(envs map[string]string) Option {
 	})
 }
 
+func WithCollectorURL(url string) Option {
+	return option(func(s *service) {
+		s.collectorURL = url
+	})
+}
+
 type service struct {
 	name         string
 	version      string
