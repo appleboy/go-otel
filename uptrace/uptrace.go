@@ -51,11 +51,13 @@ func (s *service) Shutdown(ctx context.Context) error {
 
 func (s *service) Apply(opts ...uptrace.Option) core.TracerProvider {
 	options := append(
-		opts,
+		[]uptrace.Option{},
 		uptrace.WithServiceName(s.name),
 		uptrace.WithServiceVersion(s.version),
 		uptrace.WithDeploymentEnvironment(s.environment),
 	)
+
+	options = append(options, opts...)
 
 	uptrace.ConfigureOpentelemetry(
 		options...,
@@ -74,6 +76,12 @@ func New(
 	for _, opt := range opts {
 		opt.apply(s)
 	}
+
+	uptrace.ConfigureOpentelemetry(
+		uptrace.WithServiceName(s.name),
+		uptrace.WithServiceVersion(s.version),
+		uptrace.WithDeploymentEnvironment(s.environment),
+	)
 
 	return s
 }
