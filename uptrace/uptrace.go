@@ -10,30 +10,70 @@ import (
 	"go.opentelemetry.io/otel/trace"
 )
 
-type Service struct {
-	name string
+type Option interface {
+	apply(cfg *service)
 }
 
-func (s *Service) Tracer(opts ...trace.TracerOption) trace.Tracer {
+type option func(cfg *service)
+
+func (fn option) apply(cfg *service) {
+	fn(cfg)
+}
+
+// WithServiceVersion configures `service.version` resource attribute, for example, `1.0.0`.
+func WithServiceVersion(serviceVersion string) Option {
+	return option(func(cfg *service) {
+		cfg.version = serviceVersion
+	})
+}
+
+// WithDeploymentEnvironment configures `deployment.environment` resource attribute,
+// for example, `production`.
+func WithEnvironment(env string) Option {
+	return option(func(cfg *service) {
+		cfg.environment = env
+	})
+}
+
+type service struct {
+	name        string
+	version     string
+	environment string
+}
+
+func (s *service) Tracer(opts ...trace.TracerOption) trace.Tracer {
 	return otel.Tracer(s.name, opts...)
 }
 
-func (s *Service) Shutdown(ctx context.Context) error {
+func (s *service) Shutdown(ctx context.Context) error {
 	return uptrace.Shutdown(ctx)
 }
 
-func New(
-	serviceName string,
-) (core.TracerProvider, error) {
-	uptrace.ConfigureOpentelemetry(
-		// copy your project DSN here or use UPTRACE_DSN env var
-		// uptrace.WithDSN("https://<token>@uptrace.dev/<project_id>"),
-
-		uptrace.WithServiceName(serviceName),
-		uptrace.WithServiceVersion("1.0.0"),
+func (s *service) Apply(opts ...uptrace.Option) core.TracerProvider {
+	options := append(
+		opts,
+		uptrace.WithServiceName(s.name),
+		uptrace.WithServiceVersion(s.version),
+		uptrace.WithDeploymentEnvironment(s.environment),
 	)
 
-	return &Service{
-		name: serviceName,
-	}, nil
+	uptrace.ConfigureOpentelemetry(
+		options...,
+	)
+	return s
+}
+
+func New(
+	name string,
+	opts ...Option,
+) core.TracerProvider {
+	s := &service{
+		name: name,
+	}
+
+	for _, opt := range opts {
+		opt.apply(s)
+	}
+
+	return s
 }
