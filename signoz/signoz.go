@@ -3,6 +3,7 @@ package signoz
 import (
 	"context"
 	"io"
+	"runtime"
 	"strings"
 
 	core "github.com/appleboy/go-otel"
@@ -130,6 +131,8 @@ func New(
 			attribute.String("service.language", "go"),
 			attribute.String("service.version", s.version),
 			attribute.String("service.environment", s.environment),
+			attribute.String("os", runtime.GOOS),
+			attribute.String("arch", runtime.GOARCH),
 		),
 	)
 	if err != nil {
