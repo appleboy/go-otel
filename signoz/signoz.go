@@ -16,6 +16,7 @@ import (
 	"go.opentelemetry.io/otel/propagation"
 	"go.opentelemetry.io/otel/sdk/resource"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
+	semconv "go.opentelemetry.io/otel/semconv/v1.12.0"
 	"go.opentelemetry.io/otel/trace"
 	"google.golang.org/grpc/credentials"
 )
@@ -127,7 +128,7 @@ func New(
 	resources, err := resource.New(
 		context.Background(),
 		resource.WithAttributes(
-			attribute.String("service.name", s.name),
+			semconv.ServiceNameKey.String(s.name),
 			attribute.String("service.language", "go"),
 			attribute.String("service.version", s.version),
 			attribute.String("service.environment", s.environment),
