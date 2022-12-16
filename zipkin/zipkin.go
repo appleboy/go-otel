@@ -74,10 +74,11 @@ func New(url string, opts ...Option) (core.TracerProvider, error) {
 
 	resources, err := resource.New(
 		context.Background(),
-		resource.WithAttributes(
+		resource.NewWithAttributes(
+			semconv.SchemaURL,
 			semconv.ServiceNameKey.String(s.name),
+			semconv.ServiceVersionKey.String(s.version),
 			attribute.String("service.language", "go"),
-			attribute.String("service.version", s.version),
 			attribute.String("service.environment", s.environment),
 			attribute.String("os", runtime.GOOS),
 			attribute.String("arch", runtime.GOARCH),
