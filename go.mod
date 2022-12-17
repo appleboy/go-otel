@@ -4,6 +4,7 @@ go 1.19
 
 require (
 	github.com/uptrace/uptrace-go v1.11.6
+	go.opentelemetry.io/otel/exporters/jaeger v1.11.2
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.11.1
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.11.1
 	go.opentelemetry.io/otel/exporters/stdout/stdouttrace v1.11.1

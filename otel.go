@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"runtime"
 
+	"github.com/appleboy/go-otel/jaeger"
 	"github.com/appleboy/go-otel/signoz"
 	"github.com/appleboy/go-otel/zipkin"
 
@@ -59,6 +60,8 @@ func ExporterFactory(name, url string) (sdktrace.SpanExporter, error) {
 		return zipkin.New(url)
 	case "signoz":
 		return signoz.New(url)
+	case "jaeger":
+		return jaeger.New(url)
 	default:
 		return nil, fmt.Errorf("%s exporter is unsupported", name)
 	}
