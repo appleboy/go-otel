@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"runtime"
 
+	"github.com/appleboy/go-otel/signoz"
 	"github.com/appleboy/go-otel/zipkin"
 
 	"go.opentelemetry.io/otel"
@@ -56,6 +57,8 @@ func ExporterFactory(name, url string) (sdktrace.SpanExporter, error) {
 	switch name {
 	case "zipkin":
 		return zipkin.New(url)
+	case "signoz":
+		return signoz.New(url)
 	default:
 		return nil, fmt.Errorf("%s exporter is unsupported", name)
 	}
