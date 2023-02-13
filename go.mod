@@ -11,7 +11,7 @@ require (
 	go.opentelemetry.io/otel/exporters/zipkin v1.12.0
 	go.opentelemetry.io/otel/sdk v1.12.0
 	go.opentelemetry.io/otel/trace v1.12.0
-	google.golang.org/grpc v1.52.3
+	google.golang.org/grpc v1.53.0
 )
 
 require github.com/openzipkin/zipkin-go v0.4.1 // indirect
