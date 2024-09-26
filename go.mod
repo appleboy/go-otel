@@ -2,8 +2,6 @@ module github.com/appleboy/go-otel
 
 go 1.21
 
-toolchain go1.22.2
-
 require (
 	github.com/uptrace/uptrace-go v1.13.0
 	go.opentelemetry.io/otel v1.14.0
