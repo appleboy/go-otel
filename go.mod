@@ -1,6 +1,6 @@
 module github.com/appleboy/go-otel
 
-go 1.24.0
+go 1.24.9
 
 require (
 	github.com/uptrace/uptrace-go v1.31.0
