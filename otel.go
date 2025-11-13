@@ -68,7 +68,10 @@ func ExporterFactory(name, url string) (sdktrace.SpanExporter, error) {
 }
 
 // NewTracer - Creates new tracer
-func NewTracer(exporter sdktrace.SpanExporter, opts ...Option) (func(context.Context) error, error) {
+func NewTracer(
+	exporter sdktrace.SpanExporter,
+	opts ...Option,
+) (func(context.Context) error, error) {
 	s := &service{}
 
 	for _, opt := range opts {
