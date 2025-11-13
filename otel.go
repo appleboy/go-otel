@@ -13,7 +13,7 @@ import (
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/sdk/resource"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
-	semconv "go.opentelemetry.io/otel/semconv/v1.10.0"
+	semconv "go.opentelemetry.io/otel/semconv/v1.27.0"
 	"go.opentelemetry.io/otel/trace"
 )
 
@@ -77,8 +77,7 @@ func NewTracer(exporter sdktrace.SpanExporter, opts ...Option) (func(context.Con
 
 	resources, err := resource.New(
 		context.Background(),
-		resource.NewWithAttributes(
-			semconv.SchemaURL,
+		resource.WithAttributes(
 			semconv.ServiceNameKey.String(s.name),
 			semconv.ServiceVersionKey.String(s.version),
 			attribute.String("service.language", "go"),
@@ -86,6 +85,7 @@ func NewTracer(exporter sdktrace.SpanExporter, opts ...Option) (func(context.Con
 			attribute.String("os", runtime.GOOS),
 			attribute.String("arch", runtime.GOARCH),
 		),
+		resource.WithSchemaURL(semconv.SchemaURL),
 	)
 	if err != nil {
 		return nil, err
