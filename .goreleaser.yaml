@@ -9,6 +9,7 @@ changelog:
   filters:
     exclude:
       - "^build\\(deps\\):"
+      - "^chore\\(deps\\):"
   groups:
     - title: Features
       regexp: "^.*feat[(\\w)]*:+.*$"
