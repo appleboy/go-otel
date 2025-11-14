@@ -79,11 +79,11 @@ func TestWithEnvironment(t *testing.T) {
 
 func TestExporterFactory(t *testing.T) {
 	tests := []struct {
-		name        string
+		name         string
 		exporterName string
-		url         string
-		wantErr     bool
-		errMsg      string
+		url          string
+		wantErr      bool
+		errMsg       string
 	}{
 		{
 			name:         "unsupported exporter",
@@ -240,8 +240,8 @@ func TestServiceStruct(t *testing.T) {
 
 func TestOptionInterface(t *testing.T) {
 	// Test that options implement the Option interface
-	var _ Option = WithServiceVersion("1.0.0")
-	var _ Option = WithEnvironment("production")
+	_ = WithServiceVersion("1.0.0")
+	_ = WithEnvironment("production")
 }
 
 func BenchmarkNewTracer(b *testing.B) {

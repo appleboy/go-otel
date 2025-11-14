@@ -61,7 +61,7 @@ func ExporterFactory(name, url string) (sdktrace.SpanExporter, error) {
 	case "signoz":
 		return signoz.New(url)
 	case "jaeger":
-		return jaeger.New(url)
+		return jaeger.New(url) //nolint:staticcheck // Keeping for backward compatibility
 	default:
 		return nil, fmt.Errorf("%s exporter is unsupported", name)
 	}
